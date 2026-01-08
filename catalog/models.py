@@ -32,3 +32,16 @@ class Product(models.Model):
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
         ordering = ['name']
+
+
+class ContactInfo(models.Model):
+    address = models.CharField(max_length=255, verbose_name="Адрес")
+    phone_number = models.CharField(max_length=20, verbose_name="Номер телефона")
+    email = models.EmailField(verbose_name="Электронная почта")
+
+    def __str__(self):
+        return self.address
+
+    class Meta:
+        verbose_name = "Контактная информация"
+        verbose_name_plural = "Контактная информация"
