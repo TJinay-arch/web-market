@@ -1,0 +1,67 @@
+[
+{
+    "model": "catalog.product",
+    "pk": 2,
+    "fields": {
+        "name": "Клубника",
+        "description": null,
+        "image": "",
+        "category": 6,
+        "price": "200.00",
+        "created_at": "2026-01-08T12:00:28.102Z",
+        "updated_at": "2026-01-08T12:00:28.102Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 4,
+    "fields": {
+        "name": "Iphone 17 pro max Cosmic Orange",
+        "description": null,
+        "image": "",
+        "category": 5,
+        "price": "140000.00",
+        "created_at": "2026-01-08T12:02:56.709Z",
+        "updated_at": "2026-01-08T12:02:56.709Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 5,
+    "fields": {
+        "name": "Iphone 16 pro",
+        "description": null,
+        "image": "",
+        "category": 5,
+        "price": "70000.00",
+        "created_at": "2026-01-08T12:03:33.614Z",
+        "updated_at": "2026-01-08T12:19:53.286Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 6,
+    "fields": {
+        "name": "Бананы",
+        "description": null,
+        "image": "",
+        "category": 6,
+        "price": "17.00",
+        "created_at": "2026-01-08T12:04:04.867Z",
+        "updated_at": "2026-01-08T12:04:04.867Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 7,
+    "fields": {
+        "name": "Яблоки",
+        "description": null,
+        "image": "",
+        "category": 6,
+        "price": "34.00",
+        "created_at": "2026-01-08T12:04:29.712Z",
+        "updated_at": "2026-01-08T12:04:29.712Z"
+    }
+}
+]
