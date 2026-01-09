@@ -1,0 +1,35 @@
+{% extends "catalog/base.html" %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block header_title %}{{ product.name }}{% endblock %}
+
+{% block lead_text %}Подробная информация о товаре{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">Детали товара</h4>
+            </div>
+            <div class="card-body">
+                <h1 class="card-title pricing-card-title">{{ product.price }} ₽</h1>
+                <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+
+                    <li><strong>Название:</strong> {{ product.name }}</li>
+                    <li><strong>Описание:</strong> {{ product.description|linebreaksbr }}</li>
+                    {% if product.image %}
+                    <li><strong>Изображение:</strong> <img src="{{ product.image.url }}"
+                                                           style="max-width: 100%; height: auto;"/></li>
+                    {% else %}
+                    <li>Нет изображения</li>
+                    {% endif %}
+                </ul>
+                <a href="/cart/add/{{ product.id }}/" class="btn btn-lg btn-block btn-outline-primary">Добавить в
+                    корзину</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

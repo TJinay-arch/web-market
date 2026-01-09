@@ -15,19 +15,18 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-# config/urls.py
-from django.contrib import admin
-from django.urls import path, include
 # Additional Debug Mode URLs Configuration
 # This should be placed in your main urls.py file
 # Only active when DEBUG is set to True
 from django.conf import settings
 from django.conf.urls.static import static
-
+# config/urls.py
+from django.contrib import admin
+from django.urls import include, path
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('catalog/', include('catalog.urls')),
+    path("catalog/", include("catalog.urls")),
 ]
 
 if settings.DEBUG:
