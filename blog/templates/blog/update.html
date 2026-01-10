@@ -1,0 +1,27 @@
+{% extends "blog/base.html" %}
+
+{% block title %}Редактировать запись{% endblock %}
+
+{% block header_title %}Редактировать запись{% endblock %}
+
+{% block lead_text %}Обновите содержимое записи.{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-6 offset-lg-3">
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- Поля формы, включая заголовок, контент и превью-изображение -->
+            {{ form.as_p }}
+
+
+            <input type="hidden" name="publish" value="true"/>
+            <button type="submit" class="btn btn-success">Опубликовать</button>
+
+            <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+
+        </form>
+    </div>
+</div>
+{% endblock %}

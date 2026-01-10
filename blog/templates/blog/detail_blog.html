@@ -1,0 +1,26 @@
+{% extends "blog/base.html" %}
+
+{% block title %}{{ record.name }}{% endblock %}
+
+{% block header_title %}{{ record.name }}{% endblock %}
+
+{% block content %}
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+
+        <hr class="my-4">
+
+        {% if record.image %}
+        <img src="{{ record.image.url }}" alt="{{ record.name }}" class="img-fluid rounded mb-3" style="max-width: 300px; height: auto;">
+        {% endif %}
+
+        <p>{{ record.description|linebreaksbr }}</p>
+        <p class="lead">Просмотры: {{ record.view_count }}</p>
+        <p class="lead">Дата публикации: {{ record.created_at|date:"d.m.Y" }}</p>
+    </div>
+</div>
+
+<div class="mb-4 d-grid gap-2 d-md-flex justify-content-md-start">
+
+</div>
+{% endblock %}

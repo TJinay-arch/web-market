@@ -1,0 +1,25 @@
+{% extends "blog/base.html" %}
+
+{% block title %}Новая запись{% endblock %}
+
+{% block header_title %}Новая запись{% endblock %}
+
+{% block lead_text %}Заполните необходимую информацию для новой записи.{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-6 offset-lg-3">
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- Отображаем все поля формы -->
+            {{ form.as_p }}
+
+            <button type="submit" name="save_as_draft" value="true" class="btn btn-outline-secondary mr-2">Сохранить как
+                черновик
+            </button>
+            <button type="submit" class="btn btn-primary">Опубликовать</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

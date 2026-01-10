@@ -1,0 +1,44 @@
+{% extends "blog/base.html" %}
+
+{% block title %}Мои статьи{% endblock %}
+
+{% block header_title %}Мои статьи{% endblock %}
+
+{% block lead_text %}Здесь собраны ваши статьи, включая черновики и опубликованные записи.{% endblock %}
+
+{% block content %}
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+    {% for record in records %}
+    <div class="col">
+        <div class="card h-100 shadow-sm d-flex flex-column justify-content-between">
+            <div class="card-body text-center">
+                <h5 class="card-title"><a href="{% url 'blog:record-detail' record.pk %}">{{ record.name }}</a></h5>
+                {% if record.image %}
+                <img src="{{ record.image.url }}" alt="{{ record.name }}" class="img-fluid rounded mb-3"
+                     style="height: 200px; object-fit: cover;">
+                {% endif %}
+            </div>
+            <div class="card-footer text-center">
+                <span class="badge bg-{% if record.is_published %}success{% else %}secondary{% endif %}">
+                    {% if record.is_published %}Опубликована{% else %}Черновик{% endif %}
+                </span>
+                <br/>
+                <small>Просмотры: {{ record.view_count }}</small>
+                <br/><br/>
+                <a href="{% url 'blog:record-update' record.pk %}" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                {% if not record.is_published %}
+                    <a href="{% url 'blog:record-publish' record.pk %}" class="btn btn-outline-success btn-sm">Опубликовать</a>
+                {% endif %}
+                <a href="{% url 'blog:record-delete' record.pk %}" class="btn btn-danger btn-sm">Удалить</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="alert alert-info mt-4">Вы еще не создали ни одной статьи.</div>
+    {% endfor %}
+</div>
+
+<div class="mt-4 d-grid gap-2 d-md-flex justify-content-md-end">
+    <a href="{% url 'blog:record-create' %}" class="btn btn-primary">Создать новую статью</a>
+</div>
+{% endblock %}
