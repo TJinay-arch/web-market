@@ -1,0 +1,21 @@
+{% extends "catalog/base.html" %}
+
+{% block title %}Новый продукт{% endblock %}
+
+{% block header_title %}Новый продукт {% endblock %}
+
+{% block lead_text %}Заполните необходимую информацию о продукте.{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-6 offset-lg-3">
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <!-- Поля и их ошибки -->
+            {{ form.as_p }}
+
+            <button type="submit" class="btn btn-primary">Добавить</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

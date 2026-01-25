@@ -1,0 +1,16 @@
+<!-- product_form.html -->
+{% extends "catalog/base.html" %}
+
+{% block title %}Добавление товара{% endblock %}
+
+{% block header_title %}Карточка товара{% endblock %}
+
+
+{% block content %}
+<h2>{{ view.title }}</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}  <!-- Отображение полей формы -->
+    <button type="submit">Сохранить</button>
+</form>
+{% endblock %}

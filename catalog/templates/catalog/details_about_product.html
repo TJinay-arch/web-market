@@ -26,10 +26,12 @@
                     <li>Нет изображения</li>
                     {% endif %}
                 </ul>
-                <a href="/cart/add/{{ product.id }}/" class="btn btn-lg btn-block btn-outline-primary">Добавить в
-                    корзину</a>
+                <a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-lg btn-block btn-outline-primary">Обновить информацию</a>
+                <a href="#" class="btn btn-lg btn-block btn-outline-success">Добавить в корзину</a>
+                <a href="{% url 'catalog:delete_product' product.pk %}" class="btn btn-lg btn-block btn-outline-danger">Удалить</a>
             </div>
         </div>
     </div>
 </div>
+
 {% endblock %}

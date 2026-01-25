@@ -1,0 +1,26 @@
+{% extends "catalog/base.html" %}
+
+{% block title %}Удаление продукта{% endblock %}
+
+{% block header_title %}Удаление продукта{% endblock %}
+
+{% block lead_text %}Вы уверены, что хотите удалить продукт "{{ object.name }}"?{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4 card p-4 border-danger">
+            <h5 class="mb-3 text-center">Удаление продукта</h5>
+            <p class="lead text-center">Вы удаляете продукт "<strong>{{ object.name }}</strong>"</p>
+            <p class="text-center text-danger font-weight-bold">Эта операция необратима!</p>
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="d-flex justify-content-center mt-3">
+                    <button type="submit" class="btn btn-danger mx-2">Да, удалить</button>
+                    <a href="{% url 'catalog:home' %}" class="btn btn-outline-secondary mx-2">Вернуться назад</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -11,29 +11,33 @@
     <div class="row">
         <!-- Цикл по категориям -->
         {% for category, products in products_by_categories.items %}
-            <div class="col-md-4">
-                <div class="card mb-4 shadow-sm">
-                    <div class="card-header">
-                        <h4 class="my-0 font-weight-normal">{{ category.name }}</h4>
-                    </div>
-                    <div class="card-body">
-                        <ul class="list-unstyled mt-3 mb-4">
-                            <!-- Цикл по товарам внутри категории -->
-                            {% for product in products %}
-                                <li class="mb-2">
-                                    <a href="/catalog/catalog/products/{{ product.id }}/" target="_blank" class="btn btn-outline-dark d-block text-decoration-none">
-                                        <strong>{{ product.name }}</strong><br />
-                                        {{ product.description|truncatewords_html:18 }} <!-- Обрезаем первые ~100 символов -->
-                                    </a>
-                                </li>
-                            {% empty %}
-                                <p>Нет товаров в данной категории.</p>
-                            {% endfor %}
-                        </ul>
-                    </div>
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">{{ category.name }}</h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mt-3 mb-4">
+                        <!-- Цикл по товарам внутри категории -->
+                        {% for product in products %}
+                        <li class="mb-2">
+                            <a href="/catalog/catalog/products/{{ product.id }}/" target="_blank"
+                               class="btn btn-outline-dark d-block text-decoration-none">
+                                <strong>{{ product.name }}</strong><br/>
+                                {{ product.description|truncatewords_html:18 }} <!-- Обрезаем первые ~100 символов -->
+                            </a>
+                        </li>
+                        {% empty %}
+                        <p>Нет товаров в данной категории.</p>
+                        {% endfor %}
+                    </ul>
                 </div>
             </div>
+        </div>
         {% endfor %}
     </div>
+</div>
+<div class="mt-4 d-grid gap-2 d-md-flex justify-content-md-end">
+    <a href="{% url 'catalog:product_create' %}" class="btn btn-primary">Добавить новый продукт</a>
 </div>
 {% endblock %}

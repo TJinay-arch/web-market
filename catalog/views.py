@@ -1,7 +1,8 @@
 from django.http import Http404, HttpResponse
-from django.views.generic import DetailView, FormView, ListView
+from django.urls import reverse_lazy
+from django.views.generic import DetailView, FormView, ListView, CreateView, DeleteView, UpdateView
 
-from .forms import ContactForm
+from .forms import ContactForm, ProductForm
 from .models import Category, ContactInfo, Product
 
 
@@ -48,3 +49,20 @@ class ProductDetailsView(DetailView):
         if not obj:
             raise Http404("Товар не найден")
         return obj
+
+class ProductCreateView(CreateView):
+    model = Product
+    form_class = ProductForm
+    template_name = "catalog/create_product.html"
+    success_url = "/catalog/home/"
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    form_class = ProductForm
+    template_name = "catalog/update_product.html"
+    success_url = "/catalog/home/"
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    template_name = "catalog/delete_product.html"
+    success_url = reverse_lazy("catalog:home")
