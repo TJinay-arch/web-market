@@ -1,0 +1,17 @@
+{% extends "catalog/base.html" %}
+
+{% block content %}
+<h2 class="text-center mb-4 fs-3">Вы действительно хотите выйти?</h2>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form method="post" class="border p-4 rounded">
+                {% csrf_token %}
+                <div class="d-flex justify-content-center mt-3">
+                    <a class="p-2 btn btn-danger mx-2" href="{% url 'catalog:home' %}">Да, выйти</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

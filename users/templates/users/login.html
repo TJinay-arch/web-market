@@ -1,0 +1,17 @@
+<!-- registration/login.html -->
+{% extends "catalog/base.html" %}
+
+{% block content %}
+<h2 class="text-center mb-4 fs-3">Авторизация</h2>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form method="post" class="border p-4 rounded">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Отправить</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

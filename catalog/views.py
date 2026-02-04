@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404, HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, FormView, ListView, CreateView, DeleteView, UpdateView
@@ -50,19 +51,19 @@ class ProductDetailsView(DetailView):
             raise Http404("Товар не найден")
         return obj
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
     template_name = "catalog/create_product.html"
     success_url = "/catalog/home/"
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
     template_name = "catalog/update_product.html"
     success_url = "/catalog/home/"
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     template_name = "catalog/delete_product.html"
     success_url = reverse_lazy("catalog:home")
