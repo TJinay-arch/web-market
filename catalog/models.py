@@ -1,4 +1,7 @@
 from django.db import models
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 # Модель категории товаров
@@ -22,6 +25,8 @@ class Product(models.Model):
     image = models.ImageField(upload_to="products/", blank=True, null=True, verbose_name="Изображение")
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="products", verbose_name="Категория")
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Цена за покупку")
+    is_published = models.BooleanField(default=False, verbose_name="Опубликовано")
+    owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name="products", verbose_name="Владелец")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Дата последнего изменения")
 
@@ -32,6 +37,9 @@ class Product(models.Model):
         verbose_name = "Продукт"
         verbose_name_plural = "Продукты"
         ordering = ["name"]
+        permissions = [
+            ("can_unpublish_product", "Может отменять публикацию продукта"),
+        ]
 
 
 class ContactInfo(models.Model):

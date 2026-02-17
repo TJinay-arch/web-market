@@ -63,7 +63,17 @@
                 {% endif %}
             </div>
 
-            <input type="hidden" name="publish" value="true"/>
+            {% if form.is_published %}
+            <div class="form-group form-check">
+                {{ form.is_published }}
+                {{ form.is_published.label_tag }}
+                {% if form.is_published.errors %}
+                <div class="alert alert-danger">
+                    {{ form.is_published.errors }}
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
 
             <button type="submit" class="btn btn-primary">Сохранить изменения</button>
 

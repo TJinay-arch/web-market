@@ -19,6 +19,13 @@
 
                     <li><strong>Название:</strong> {{ product.name }}</li>
                     <li><strong>Описание:</strong> {{ product.description|linebreaksbr }}</li>
+                    <li><strong>Статус публикации:</strong>
+                        {% if product.is_published %}
+                            <span class="text-success">Опубликовано</span>
+                        {% else %}
+                            <span class="text-warning">Не опубликовано</span>
+                        {% endif %}
+                    </li>
                     {% if product.image %}
                     <li><strong>Изображение:</strong> <img src="{{ product.image.url }}"
                                                            style="max-width: 100%; height: auto;"/></li>
@@ -26,9 +33,21 @@
                     <li>Нет изображения</li>
                     {% endif %}
                 </ul>
-                <a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-lg btn-block btn-outline-primary">Обновить информацию</a>
+                {% if user.is_authenticated %}
+                    {% if product.owner == user %}
+                        <a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-lg btn-block btn-outline-primary">Обновить информацию</a>
+                        <a href="{% url 'catalog:delete_product' product.pk %}" class="btn btn-lg btn-block btn-outline-danger">Удалить</a>
+                    {% elif perms.catalog.delete_product %}
+                        <a href="{% url 'catalog:delete_product' product.pk %}" class="btn btn-lg btn-block btn-outline-danger">Удалить (модератор)</a>
+                    {% endif %}
+                    {% if perms.catalog.can_unpublish_product and product.is_published %}
+                        <form method="post" action="{% url 'catalog:unpublish_product' product.pk %}" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-lg btn-block btn-outline-warning">Отменить публикацию</button>
+                        </form>
+                    {% endif %}
+                {% endif %}
                 <a href="#" class="btn btn-lg btn-block btn-outline-success">Добавить в корзину</a>
-                <a href="{% url 'catalog:delete_product' product.pk %}" class="btn btn-lg btn-block btn-outline-danger">Удалить</a>
             </div>
         </div>
     </div>

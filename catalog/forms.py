@@ -20,7 +20,33 @@ FORBIDDEN_WORDS = [
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['name', 'description', 'image', 'category', 'price']
+        fields = ['name', 'description', 'image', 'category', 'price', 'is_published']
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        # Поле is_published доступно только владельцу при редактировании или модератору
+        if not self.user:
+            # Если пользователь не передан, скрываем поле
+            self.fields.pop('is_published', None)
+        elif not self.instance.pk:
+            # При создании нового продукта скрываем поле (по умолчанию False)
+            self.fields.pop('is_published', None)
+        elif self.instance.owner != self.user:
+            # Если редактируем чужой продукт и не модератор, скрываем поле
+            if not self.user.has_perm('catalog.can_unpublish_product'):
+                self.fields.pop('is_published', None)
+
+        for visible_field in self.visible_fields():
+            visible_field.field.widget.attrs.update({
+                'class': 'form-control'
+            })
+
+        self.fields['name'].widget.attrs.update({'placeholder': 'Название продукта'})
+        self.fields['description'].widget.attrs.update({'rows': 4})
+        self.fields['price'].widget.attrs.update({'step': '0.01', 'min': '0'})
+        if 'is_published' in self.fields:
+            self.fields['is_published'].widget.attrs.update({'class': 'form-check-input'})
 
     def clean_name(self):
         name = self.cleaned_data.get('name')
@@ -40,13 +66,3 @@ class ProductForm(forms.ModelForm):
             raise ValidationError("Укажите корректную цену.")
         return price
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for visible_field in self.visible_fields():
-            visible_field.field.widget.attrs.update({
-                'class': 'form-control'
-            })
-
-        self.fields['name'].widget.attrs.update({'placeholder': 'Название продукта'})
-        self.fields['description'].widget.attrs.update({'rows': 4})
-        self.fields['price'].widget.attrs.update({'step': '0.01', 'min': '0'})
