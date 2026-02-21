@@ -3,6 +3,10 @@ from django.core.exceptions import PermissionDenied
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, FormView, ListView, CreateView, DeleteView, UpdateView, View
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
+from .services import get_products_by_category
+from django.core.cache import cache
 
 from .forms import ContactForm, ProductForm
 from .models import Category, ContactInfo, Product
@@ -40,7 +44,7 @@ class CatalogView(ListView):
         context["products_by_categories"] = products_by_categories
         return context
 
-
+@method_decorator(cache_page(60 * 15), name='dispatch')
 class ProductDetailsView(DetailView):
     model = Product
     template_name = "catalog/details_about_product.html"
@@ -65,7 +69,12 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         return kwargs
 
     def form_valid(self, form):
+        obj = form.save(commit=False)
         form.instance.owner = self.request.user
+        if self.request.POST.get("add"):
+            obj.is_published = False
+        else:
+            obj.is_published = True
         return super().form_valid(form)
 
 
@@ -115,3 +124,39 @@ class ProductUnpublishView(LoginRequiredMixin, PermissionRequiredMixin, View):
                 return HttpResponse("Продукт уже не опубликован.", status=400)
         except Product.DoesNotExist:
             raise Http404("Продукт не найден.")
+
+class CategoryProductsView(ListView):
+    model = Product
+    template_name = "catalog/category_products.html"
+    context_object_name = "products"
+    paginate_by = 12
+
+    def get_queryset(self):
+        category_id = self.kwargs.get("category_id")
+        cache_key = f"products_category_{category_id}"
+        queryset = cache.get(cache_key)
+
+        if not queryset:
+            queryset = get_products_by_category(category_id)
+            cache.set(cache_key, queryset, 60 * 15)  # Кешируем на 15 минут
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category_id = self.kwargs.get("category_id")
+
+        # Кешируем информацию о категории
+        cache_key_category = f"category_{category_id}"
+        category = cache.get(cache_key_category)
+
+        if not category:
+            try:
+                category = Category.objects.get(id=category_id)
+                cache.set(cache_key_category, category, 60 * 15)
+            except Category.DoesNotExist:
+                category = None
+
+        context["category"] = category
+        return context
+

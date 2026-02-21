@@ -8,6 +8,24 @@
 
 {% block content %}
 <div class="container">
+    <div class="row align-items-center mb-4">
+        <div class="col-md-8">
+            <h2>Каталог товаров</h2>
+        </div>
+        <div class="col-md-4 text-end">
+            <!-- Выпадающий список фильтров -->
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    Товары по категориям
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="filterDropdown">
+                    <li><a class="dropdown-item" href="/catalog/category/1/">Фрукты</a></li>
+                    <li><a class="dropdown-item" href="/catalog/category/2/">Техника</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         <!-- Цикл по категориям -->
         {% for category, products in products_by_categories.items %}
@@ -37,6 +55,7 @@
         {% endfor %}
     </div>
 </div>
+
 <div class="mt-4 d-grid gap-2 d-md-flex justify-content-md-end">
     <a href="{% url 'catalog:product_create' %}" class="btn btn-primary">Добавить новый продукт</a>
 </div>
